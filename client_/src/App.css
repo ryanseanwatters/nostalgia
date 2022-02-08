@@ -1,0 +1,15 @@
+:root {
+  --primary-color: #FFFDF9;
+  --secondary-color: #7094DA;
+}
+
+.App {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  margin: 0%;
+}
+
+/* sets the whole background to be full size of page */
+body > #root > div {
+  height: 100vh;
+}
