@@ -1,6 +1,13 @@
 :root {
-  --primary-color: #FFFDF9;
-  --secondary-color: #7094DA;
+  --primary-color: hsl(40, 100%, 99%);
+  --secondary-color: hsl(220, 59%, 65%);
+  /* --primary-color: hsl(11, 100%, 99%);
+  --secondary-color: hsl(17, 59%, 65%); */
+}
+
+/* sets the whole background to be full size of page */
+body > #root > div {
+  height: 100vh;
 }
 
 .App {
@@ -9,7 +16,17 @@
   margin: 0%;
 }
 
-/* sets the whole background to be full size of page */
-body > #root > div {
-  height: 100vh;
+.App-body {
+  padding: 10px 40px;
+  display: flex;  
+  justify-content: space-between;
+  gap: 80px;
+}
+
+.App-body-child {
+  margin: 20px;
+}
+
+.App-body-child:last-child {
+  margin-right: 40px;
 }
