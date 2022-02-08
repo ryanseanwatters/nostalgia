@@ -7,26 +7,25 @@
 
 /* sets the whole background to be full size of page */
 body > #root > div {
-  height: 100vh;
+  height: 100%;
 }
 
 .App {
   background-color: var(--primary-color);
   color: var(--secondary-color);
-  margin: 0%;
 }
 
 .App-body {
-  padding: 10px 40px;
+  padding: 0.65rem 2.5rem;
   display: flex;  
   justify-content: space-between;
-  gap: 80px;
+  gap: 5rem;
 }
 
 .App-body-child {
-  margin: 20px;
+  margin: 1.3rem;
 }
 
 .App-body-child:last-child {
-  margin-right: 40px;
+  margin-right: 2.5rem;
 }

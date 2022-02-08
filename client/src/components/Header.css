@@ -3,15 +3,15 @@
   font-family: 'Tenali Ramakrishna', sans-serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 20px;
+  font-size: 1.4rem;
   display: flex;  
   justify-content: flex-end;
 }
 
 .Header-child {
-  margin: 20px;
+  margin: 1.2rem;
 }
 
 .Header-child:last-child {
-  margin-right: 40px;
+  margin-right: 3rem;
 }
