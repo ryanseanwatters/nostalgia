@@ -6,7 +6,7 @@ app.get('/hello', (req, res) => {
     res.json({ "hello": "marsela" })
 });
 
-app.listen(1222, () => {
-    console.log('Server started on Port 1222');
+app.listen(30000, () => {
+    console.log('Server started on Port 30000');
 });
  
