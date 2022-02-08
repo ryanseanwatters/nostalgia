@@ -1,2 +1,2 @@
 # nostalgia
-nostalgia app
+nostalgia app :)
