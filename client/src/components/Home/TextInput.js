@@ -1,5 +1,12 @@
 import React from 'react';
-import {Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  ContentState,
+  RichUtils,
+  getDefaultKeyBinding,
+  convertToRaw,
+} from 'draft-js';
 
 import 'draft-js/dist/Draft.css';
 import './TextInput.css';
@@ -8,17 +15,30 @@ class TextInput extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty(), inFocus: false };
+    
+    const {
+      initialString = '',
+      qId,
+      currentAnswerContentState,
+      handleTextInputChanges,
+    } = props; 
+
+    this.state = {
+      editorState: EditorState.createWithContent(ContentState.createFromText(initialString)),
+      inFocus: false
+    };
 
     this.editorRef = React.createRef();
-
 
     this.focus = () => {
       this.setState({ inFocus: true })
       this.editorRef.current.focus(); 
     } 
     
-    this.onChange = (editorState) => this.setState({editorState});
+    this.onChange = (editorState) => { 
+      this.setState({editorState});
+      handleTextInputChanges(qId, convertToRaw(editorState.getCurrentContent()));
+    };
 
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this.mapKeyToEditorCommand.bind(this);

@@ -1,26 +1,62 @@
-import React from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
 import TextInput from './TextInput';
 import { formatDate } from '../utils';
 
 import './Entry.css';
+// import EntryQuestions from './EntryQuestions';
 
 function ViewEntry(props) {
   const { entry = {} } = props;
 
-  console.log('ViewEntry entry', entry)
+  const { questions } = entry;
+
+  const [inEditingMode, setEditingMode] = useState(false);
+  const [qIdMap, setQIdMap] = useState({});
+  const [unsavedChanges, setUnsavedChanges] = useState({});
+
+  useEffect(() => {
+    const m = {};
+
+    questions.forEach((q) => {
+      m[q.qId] = q;
+    });
+
+    setQIdMap(m);
+  }, [questions]);
+
+  const handleTextInputChanges = ((qId, content) => {
+    const newState = unsavedChanges;
+    newState[qId] = content;
+
+    setUnsavedChanges(newState);
+  })
+
+  const handleSave = () => {
+    setEditingMode(false);
+    console.log('handleSave unsavedChanges', unsavedChanges);
+  }
 
   return (
     <div className="Entry">
-     
       <div className="Entry-buttons">   
-        <div className="Entry-buttons-child">
-          <FaPen onClick={() => alert("edit clicked")} className="Entry-buttons-child-icon" />
-        </div>
-     
-        <div className="Entry-buttons-child">
-          <FaTrash onClick={() => alert("delete clicked")} className="Entry-buttons-child-icon" />
-        </div>
+        {!inEditingMode ?
+          <div className="Entry-buttons-child" onClick={() => setEditingMode(true)}>
+            <FaPen className="Entry-buttons-child-icon" />
+          </div> : null
+        }
+
+        {inEditingMode ?
+          <div className="Entry-buttons-child" onClick={handleSave}>
+            <FaCheckCircle className="Entry-buttons-child-icon" />
+          </div> : null
+        }
+
+        {!inEditingMode ?
+          <div className="Entry-buttons-child" onClick={() => alert("delete clicked")}>
+            <FaTrash className="Entry-buttons-child-icon" />
+          </div> : null
+        }
       </div>
 
       <div className="Entry-body"> 
@@ -28,28 +64,30 @@ function ViewEntry(props) {
           { formatDate(new Date(entry.createdAt)) }
         </div>
         
+        {/* <EntryQuestions
+          className="Entry-body-child"
+          questions={entry.questions}
+        /> */}
+
         <div className="Entry-body-child Entry-questions-container">
-          <div>
-            <div className="Entry-question">
-              what does your normal day look like?
-            </div>
-            <TextInput />
-          </div>
-
-          <div>
-            <div className="Entry-question">
-              what are you biggest goals right now? 
-            </div>
-            <TextInput />
-          </div>
-
-          <div>
-            <div className="Entry-question">
-              what are you watching nowadays?
-            </div>
-            <TextInput />
-          </div>
+          {
+            questions.map((question) => (
+              <div key={question.qId}>
+                <div key={`${question.qId}_q`} className="Entry-question">
+                  {question.q}
+                </div>
+                <TextInput
+                  key={`${question.qId}_a`}
+                  initialString={question.a}
+                  qId={question.qId}
+                  currentAnswerContentState={question.a}
+                  handleTextInputChanges={handleTextInputChanges}
+                />
+              </div>
+            ))
+          }   
         </div>
+
       </div>
     </div>
   )

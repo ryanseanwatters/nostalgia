@@ -7,9 +7,6 @@ import ViewEntry from './ViewEntry';
 
 const API_URL = 'http://localhost:4200';
 
-// temp variables
-// const userId = '1';
-
 function Home(props) {
 
   // default userId to 1, update when impl sign in
@@ -29,7 +26,6 @@ function Home(props) {
     });
 
     setDateToEntriesMap(map);
-
   }, [entries]);
 
   useEffect(() => {
