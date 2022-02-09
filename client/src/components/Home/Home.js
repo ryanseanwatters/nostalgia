@@ -1,29 +1,91 @@
 import './Home.css';
-import Entry from './Entry';
 import Header from './Header';
 import History from './History';
+import { useEffect, useState } from 'react';
+import NewEntry from './NewEntry';
+import ViewEntry from './ViewEntry';
 
-function Home() {
+const API_URL = 'http://localhost:4200';
 
-  async function fetchHello() {
-    const res = await fetch('http://localhost:4200/hello', {
+// temp variables
+// const userId = '1';
+
+function Home(props) {
+
+  // default userId to 1, update when impl sign in
+  const { userId = 1 } = props;
+
+  const [entries, setEntries] = useState([]);
+  const [dateToEntriesMap, setDateToEntriesMap] = useState({});
+  const [viewEntry, setViewEntry] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null); 
+
+  // update dateToEntriesMap each time entries is updated
+  useEffect(() => {
+    const map = {}; 
+
+    entries.forEach((e) => {
+      map[e.createdAt] = e;
+    });
+
+    setDateToEntriesMap(map);
+
+  }, [entries]);
+
+  useEffect(() => {
+    getEntries(userId);
+  }, [userId]);
+
+  const getEntries = async (userId) => {
+    await fetch(`${API_URL}/entries/${userId}`, {
       method: 'GET'
-    }); 
-
-    const data = await res.json()
-    console.log('API Res: ', data);
+    })
+    .then(res => res.json())
+    .then(data => setEntries(data.entries)); 
   }
-  
+
+  const saveEntry = async (entry) => {
+    await fetch(`${API_URL}/entry`, {
+      method: 'POST',
+      body: { entry },
+    }); 
+  }
+
+  const handleDateSelect = ((date) => {
+    console.log('date selected!, date', date)
+    setViewEntry(true);
+    setSelectedDate(date);
+  })
+
+  const selectNew = () => {
+    setViewEntry(false);
+    setSelectedDate(null);
+  }
+
+  console.log('before return entries', entries)
+  console.log('before return dateToEntriesMap', dateToEntriesMap)
+  console.log('before return viewEntry', viewEntry)
+  console.log('before return selectedDate', selectedDate)
+
   return (
     <div className="Home">      
-    
-    {/* <div onClick={() => fetchHello()}>fetch</div> */}
 
       <Header />
+      
       <div className="Home-body">
-        <History className="Home-body-child"/>
-        <Entry className="Home-body-child" />
+        <History 
+          className="Home-body-child"
+          dates={Object.keys(dateToEntriesMap)}
+          handleDateSelect={handleDateSelect}
+          selectNew={selectNew}
+        />
+        
+        { viewEntry ? 
+          <ViewEntry className="Home-body-child" entry={dateToEntriesMap[selectedDate]} />
+          : <NewEntry className="Home-body-child" />
+        }
       </div>
+    
     </div>
   );
 }

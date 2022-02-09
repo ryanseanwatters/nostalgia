@@ -1,31 +1,26 @@
 import React from 'react'; 
 import { FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
 import TextInput from './TextInput';
+import { formatDate } from '../utils';
 
 import './Entry.css';
 
-function Entry() {
+function NewEntry() {
+
   return (
     <div className="Entry">
      
       <div className="Entry-buttons">
         <div className="Entry-buttons-child" alt="save">
           <FaCheckCircle onClick={() => alert("save clicked")} className="Entry-buttons-child-icon" />
-        </div>
-     
-        <div className="Entry-buttons-child">
-          <FaPen onClick={() => alert("edit clicked")} className="Entry-buttons-child-icon" />
-        </div>
-     
-        <div className="Entry-buttons-child">
-          <FaTrash onClick={() => alert("delete clicked")} className="Entry-buttons-child-icon" />
-        </div>
+        </div> 
       </div>
 
       <div className="Entry-body"> 
         <div className="Entry-body-child" id="Entry-date">
-          febuary 7, 2021
+          { formatDate(new Date()) }
         </div>
+        
         <div className="Entry-body-child Entry-questions-container">
           <div>
             <div className="Entry-question">
@@ -53,4 +48,4 @@ function Entry() {
   )
 }
 
-export default Entry;
+export default NewEntry;
