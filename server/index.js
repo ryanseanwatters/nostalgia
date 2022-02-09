@@ -1,12 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
+
 app.get('/hello', (req, res) => {
-    res.json({ "hello": "marsela" })
+    res.json({ 'hello': 'world' });
 });
 
-app.listen(30000, () => {
-    console.log('Server started on Port 30000');
+app.listen(4200, () => {
+    console.log('Server started on Port 4200');
 });
  
