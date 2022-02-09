@@ -21,6 +21,7 @@ class TextInput extends React.Component {
       qId,
       currentAnswerContentState,
       handleTextInputChanges,
+      readOnly,
     } = props; 
 
     this.state = {
@@ -31,8 +32,12 @@ class TextInput extends React.Component {
     this.editorRef = React.createRef();
 
     this.focus = () => {
-      this.setState({ inFocus: true })
-      this.editorRef.current.focus(); 
+      const { readOnly } = this.props;
+      
+      if (!readOnly) {
+        this.setState({ inFocus: true })
+        this.editorRef.current.focus(); 
+      }
     } 
     
     this.onChange = (editorState) => { 
@@ -90,6 +95,7 @@ class TextInput extends React.Component {
 
   render() {
     const { editorState, inFocus } = this.state;
+    const { readOnly } = this.props;
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
@@ -125,6 +131,7 @@ class TextInput extends React.Component {
             ref={this.editorRef}
             spellCheck={true}
             onBlur={ () => this.setState({ inFocus: false })}
+            readOnly={readOnly}
           />
         </div>
       </div>

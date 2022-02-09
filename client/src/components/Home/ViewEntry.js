@@ -59,15 +59,10 @@ function ViewEntry(props) {
         }
       </div>
 
-      <div className="Entry-body"> 
+      <div className="Entry-body">
         <div className="Entry-body-child" id="Entry-date">
           { formatDate(new Date(entry.createdAt)) }
         </div>
-        
-        {/* <EntryQuestions
-          className="Entry-body-child"
-          questions={entry.questions}
-        /> */}
 
         <div className="Entry-body-child Entry-questions-container">
           {
@@ -82,12 +77,12 @@ function ViewEntry(props) {
                   qId={question.qId}
                   currentAnswerContentState={question.a}
                   handleTextInputChanges={handleTextInputChanges}
+                  readOnly={!inEditingMode}
                 />
               </div>
             ))
           }   
         </div>
-
       </div>
     </div>
   )
