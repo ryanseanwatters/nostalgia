@@ -3,8 +3,6 @@ const monthName = ["january", "february", "march", "april", "may", "june",
 ];
 
 const formatDate = (d) => {
-  console.log('date received', d)
-
   return `${monthName[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`
 }
 

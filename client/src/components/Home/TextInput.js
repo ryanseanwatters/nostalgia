@@ -81,8 +81,6 @@ class TextInput extends React.Component {
       }
     }
 
-    console.log('in render tho', inFocus)
-
     return (
       <div className="RichEditor-root">
         { inFocus ? <div className="RichEditor-controls">

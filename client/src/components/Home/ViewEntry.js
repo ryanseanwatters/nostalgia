@@ -8,6 +8,8 @@ import './Entry.css';
 function ViewEntry(props) {
   const { entry = {} } = props;
 
+  console.log('ViewEntry entry', entry)
+
   return (
     <div className="Entry">
      

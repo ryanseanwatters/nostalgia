@@ -52,7 +52,6 @@ function Home(props) {
   }
 
   const handleDateSelect = ((date) => {
-    console.log('date selected!, date', date)
     setViewEntry(true);
     setSelectedDate(date);
   })
@@ -62,10 +61,10 @@ function Home(props) {
     setSelectedDate(null);
   }
 
-  console.log('before return entries', entries)
-  console.log('before return dateToEntriesMap', dateToEntriesMap)
-  console.log('before return viewEntry', viewEntry)
-  console.log('before return selectedDate', selectedDate)
+  // console.log('before return entries', entries)
+  // console.log('before return dateToEntriesMap', dateToEntriesMap)
+  // console.log('before return viewEntry', viewEntry)
+  // console.log('before return selectedDate', selectedDate)
 
   return (
     <div className="Home">      
