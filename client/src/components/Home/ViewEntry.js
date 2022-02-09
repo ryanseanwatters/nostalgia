@@ -4,10 +4,12 @@ import TextInput from './TextInput';
 import { formatDate } from '../utils';
 
 import './Entry.css';
-// import EntryQuestions from './EntryQuestions';
+
+const API_URL = 'http://localhost:4200';
+
 
 function ViewEntry(props) {
-  const { entry = {} } = props;
+  const { entry = {}, fetchEntries } = props;
 
   const { questions } = entry;
 
@@ -32,9 +34,16 @@ function ViewEntry(props) {
     setUnsavedChanges(newState);
   })
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setEditingMode(false);
-    console.log('handleSave unsavedChanges', unsavedChanges);
+
+    await fetch(`${API_URL}/user/1/entry/${entry.entryId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ changes: unsavedChanges }),
+    });
   }
 
   return (
@@ -68,17 +77,19 @@ function ViewEntry(props) {
           {
             questions.map((question) => (
               <div key={question.qId}>
+                
                 <div key={`${question.qId}_q`} className="Entry-question">
                   {question.q}
                 </div>
+
                 <TextInput
                   key={`${question.qId}_a`}
-                  initialString={question.a}
                   qId={question.qId}
-                  currentAnswerContentState={question.a}
+                  initialAnswerContentState={question.a}
                   handleTextInputChanges={handleTextInputChanges}
                   readOnly={!inEditingMode}
                 />
+              
               </div>
             ))
           }   

@@ -10,7 +10,18 @@ async function getEntries(req, res) {
 }
 
 async function saveEntry(req, res) {
-  const { entry } = req.body; 
+  const { userId, entryId } = req.params; 
+  const { changes = {} } = req.body; 
+
+  let entry = await getEntry(userId, entryId);
+
+  for(let i = 0; i < entry.questions.length; ++i) {
+    const qId = entry.questions[i].qId;
+
+    if (changes[qId]) {
+      entry.questions[i].a = changes[qId];
+    }
+  }
 
   await setEntry(entry);
 

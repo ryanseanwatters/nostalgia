@@ -5,6 +5,7 @@ import {
   ContentState,
   RichUtils,
   getDefaultKeyBinding,
+  convertFromRaw,
   convertToRaw,
 } from 'draft-js';
 
@@ -17,15 +18,16 @@ class TextInput extends React.Component {
     super(props);
     
     const {
-      initialString = '',
       qId,
-      currentAnswerContentState,
+      initialAnswerContentState,
       handleTextInputChanges,
       readOnly,
     } = props; 
 
+    console.log(qId, initialAnswerContentState);
+
     this.state = {
-      editorState: EditorState.createWithContent(ContentState.createFromText(initialString)),
+      editorState: initialAnswerContentState ? EditorState.createWithContent(convertFromRaw(initialAnswerContentState)) : EditorState.createEmpty(),
       inFocus: false
     };
 
