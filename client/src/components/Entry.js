@@ -1,5 +1,6 @@
 import React from 'react'; 
 import { FaPen, FaTrash } from "react-icons/fa";
+import TextInput from './TextInput';
 
 import './Entry.css';
 
@@ -18,33 +19,32 @@ class Entry extends React.Component {
                 </div>
                 <div className='Entry-body'> 
                     <div className='Entry-body-child' id='Entry-date'> febuary 7, 2021 </div>
-                    <div className='Entry-body-child Entry-questions'>
-                        <div className='Entry-question'>
-                            <div>
-                                what is your favorite food?
+                    <div className='Entry-body-child Entry-questions-container'>
+                        <div>
+                            <div className='Entry-question'>
+                                what does your normal day look like?
                             </div>
-                            <input className='Entry-question-input'></input>
+
+                            <TextInput />
                         </div>
 
-                        <div className='Entry-question'>
-                            <div>
-                                what is your favorite food?
+                        <div>
+                            <div className='Entry-question'>
+                                what are you biggest goals right now? 
                             </div>
-                            <input className='Entry-question-input'></input>
+                            {/* <input className='Entry-question-input'></input> */}
+
+                            <TextInput />
                         </div>
 
-                        <div className='Entry-question'>
-                            <div>
-                                what is your favorite food?
-                            </div>
-                            <input className='Entry-question-input'></input>
-                        </div>
 
-                        <div className='Entry-question'>
-                            <div>
-                                what is your favorite food?
+                        <div>
+                            <div className='Entry-question'>
+                            what are you watching nowadays?
                             </div>
-                            <input className='Entry-question-input'></input>
+                            {/* <input className='Entry-question-input'></input> */}
+
+                            <TextInput />
                         </div>
                     </div>
                 </div>
