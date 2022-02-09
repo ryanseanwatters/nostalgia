@@ -1,26 +1,132 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
 
 import 'draft-js/dist/Draft.css';
 import './TextInput.css';
 
 
+// function TextInput() {
 
-function TextInput() {
+//   const [inFocus, setInFocus] = useState(false);
+//   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+//   const editorRef = useRef();
 
-  const [inFocus, setInFocus] = useState(false);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-  function focus() {
-    setInFocus(true);
-    this.refs.editor.focus();
+//   function focus() {
+//     setInFocus(true);
+//     editorRef.focus();
+//   }
+
+//   function onChange(editorState) {
+//     setEditorState(editorState);
+//   }
+
+//   function handleKeyCommand(command, editorState) {
+//     const newState = RichUtils.handleKeyCommand(editorState, command);
+//     if (newState) {
+//       this.onChange(newState);
+//       return true;
+//     }
+//     return false;
+//   }
+
+//   function mapKeyToEditorCommand(e) {
+//     if (e.keyCode === 9 /* TAB */) {
+//       const newEditorState = RichUtils.onTab(
+//         e,
+//         editorState,
+//         4, /* maxDepth */
+//       );
+//       if (newEditorState !== editorState) {
+//         onChange(newEditorState);
+//       }
+//       return;
+//     }
+//     return getDefaultKeyBinding(e);
+//   }
+
+//   function toggleBlockType(blockType) {
+//     onChange(
+//       RichUtils.toggleBlockType(
+//         editorState,
+//         blockType
+//       )
+//     );
+//   }
+
+//   function toggleInlineStyle(inlineStyle) {
+//     onChange(
+//       RichUtils.toggleInlineStyle(
+//         editorState,
+//         inlineStyle
+//       )
+//     );
+//   }
+
+//   // If the user changes block type before entering any text, we can
+//   // either style the placeholder or hide it. Let's just hide it now.
+//   let className = 'RichEditor-editor';
+//   var contentState = editorState.getCurrentContent();
+//   if (!contentState.hasText()) {
+//     if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+//       className += ' RichEditor-hidePlaceholder';
+//     }
+//   }
+
+//   // console.log('in render tho', inFocus)
+
+//   return (
+//     <div className="RichEditor-root">
+//       { inFocus ? <div className="RichEditor-controls">
+//         <BlockStyleControls
+//           editorState={editorState}
+//           onToggle={toggleBlockType}
+//         />
+//         <InlineStyleControls
+//           editorState={editorState}
+//           onToggle={toggleInlineStyle}
+//           />
+//       </div> : null }
+
+//       <div className={className} onClick={focus}>
+//         <Editor
+//           blockStyleFn={getBlockStyle}
+//           editorState={editorState}
+//           handleKeyCommand={handleKeyCommand}
+//           keyBindingFn={mapKeyToEditorCommand}
+//           onChange={onChange}
+//           placeholder="Tell a story..."
+//           ref={editorRef}
+//           spellCheck={true}
+//         />
+//       </div>
+//     </div>
+//   );
+// }
+
+class TextInput extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = { editorState: EditorState.createEmpty(), inFocus: false };
+
+    this.editorRef = React.createRef();
+
+
+    this.focus = () => {
+      this.setState({ inFocus: true })
+      this.editorRef.current.focus(); 
+    } 
+    
+    this.onChange = (editorState) => this.setState({editorState});
+
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
+    this.mapKeyToEditorCommand = this.mapKeyToEditorCommand.bind(this);
+    this.toggleBlockType = this.toggleBlockType.bind(this);
+    this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
   }
 
-  function onChange(editorState) {
-    setEditorState(editorState);
-  }
-
-  function handleKeyCommand(command, editorState) {
+  handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       this.onChange(newState);
@@ -29,7 +135,7 @@ function TextInput() {
     return false;
   }
 
-  function mapKeyToEditorCommand(e) {
+  mapKeyToEditorCommand(e) {
     if (e.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(
         e,
@@ -44,7 +150,7 @@ function TextInput() {
     return getDefaultKeyBinding(e);
   }
 
-  function toggleBlockType(blockType) {
+  toggleBlockType(blockType) {
     this.onChange(
       RichUtils.toggleBlockType(
         this.state.editorState,
@@ -53,7 +159,7 @@ function TextInput() {
     );
   }
 
-  function toggleInlineStyle(inlineStyle) {
+  toggleInlineStyle(inlineStyle) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.state.editorState,
@@ -62,150 +168,51 @@ function TextInput() {
     );
   }
 
-  // If the user changes block type before entering any text, we can
-  // either style the placeholder or hide it. Let's just hide it now.
-  let className = 'RichEditor-editor';
-  var contentState = editorState.getCurrentContent();
-  if (!contentState.hasText()) {
-    if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-      className += ' RichEditor-hidePlaceholder';
+  render() {
+    const { editorState, inFocus } = this.state;
+
+    // If the user changes block type before entering any text, we can
+    // either style the placeholder or hide it. Let's just hide it now.
+    let className = 'RichEditor-editor';
+    var contentState = editorState.getCurrentContent();
+    if (!contentState.hasText()) {
+      if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+        className += ' RichEditor-hidePlaceholder';
+      }
     }
-  }
 
-  // console.log('in render tho', inFocus)
+    console.log('in render tho', inFocus)
 
-  return (
-    <div className="RichEditor-root">
-      { inFocus ? <div className="RichEditor-controls">
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={toggleInlineStyle}
+    return (
+      <div className="RichEditor-root">
+        { inFocus ? <div className="RichEditor-controls">
+          <BlockStyleControls
+            editorState={editorState}
+            onToggle={this.toggleBlockType}
           />
-      </div> : null }
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+            />
+        </div> : null }
 
-      <div className={className} onClick={focus}>
-        <Editor
-          blockStyleFn={getBlockStyle}
-          editorState={editorState}
-          handleKeyCommand={handleKeyCommand}
-          keyBindingFn={mapKeyToEditorCommand}
-          onChange={onChange}
-          placeholder="Tell a story..."
-          ref="editor"
-          spellCheck={true}
-        />
+        <div className={className} onClick={this.focus}>
+          <Editor
+            blockStyleFn={getBlockStyle}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            keyBindingFn={this.mapKeyToEditorCommand}
+            onChange={this.onChange}
+            placeholder="Tell a story..."
+            ref={this.editorRef}
+            spellCheck={true}
+            onBlur={ () => this.setState({ inFocus: false })}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
-
-// class TextInput extends React.Component {
-  
-//   constructor(props) {
-//     super(props);
-//     this.state = { editorState: EditorState.createEmpty()};
-
-    
-
-//     this.focus = () => { console.log('here', this.state.inFocus ); this.state.inFocus = true; this.refs.editor.focus();  console.log('here at end', this.state.inFocus );} 
-//     this.onChange = (editorState) => this.setState({editorState});
-
-//     this.handleKeyCommand = this.handleKeyCommand.bind(this);
-//     this.mapKeyToEditorCommand = this.mapKeyToEditorCommand.bind(this);
-//     this.toggleBlockType = this.toggleBlockType.bind(this);
-//     this.toggleInlineStyle = this.toggleInlineStyle.bind(this);
-//   }
-
-//   handleKeyCommand(command, editorState) {
-//     const newState = RichUtils.handleKeyCommand(editorState, command);
-//     if (newState) {
-//       this.onChange(newState);
-//       return true;
-//     }
-//     return false;
-//   }
-
-//   mapKeyToEditorCommand(e) {
-//     if (e.keyCode === 9 /* TAB */) {
-//       const newEditorState = RichUtils.onTab(
-//         e,
-//         this.state.editorState,
-//         4, /* maxDepth */
-//       );
-//       if (newEditorState !== this.state.editorState) {
-//         this.onChange(newEditorState);
-//       }
-//       return;
-//     }
-//     return getDefaultKeyBinding(e);
-//   }
-
-//   toggleBlockType(blockType) {
-//     this.onChange(
-//       RichUtils.toggleBlockType(
-//         this.state.editorState,
-//         blockType
-//       )
-//     );
-//   }
-
-//   toggleInlineStyle(inlineStyle) {
-//     this.onChange(
-//       RichUtils.toggleInlineStyle(
-//         this.state.editorState,
-//         inlineStyle
-//       )
-//     );
-//   }
-
-//   render() {
-//     const { editorState, inFocus } = this.state;
-
-//     // If the user changes block type before entering any text, we can
-//     // either style the placeholder or hide it. Let's just hide it now.
-//     let className = 'RichEditor-editor';
-//     var contentState = editorState.getCurrentContent();
-//     if (!contentState.hasText()) {
-//       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-//         className += ' RichEditor-hidePlaceholder';
-//       }
-//     }
-
-//     console.log('in render tho', inFocus)
-
-//     return (
-//       <div className="RichEditor-root">
-//         { inFocus ? <div className="RichEditor-controls">
-//           <BlockStyleControls
-//             editorState={editorState}
-//             onToggle={this.toggleBlockType}
-//           />
-//           <InlineStyleControls
-//             editorState={editorState}
-//             onToggle={this.toggleInlineStyle}
-//             />
-//         </div> : null }
-
-//         <div className={className} onClick={this.focus}>
-//           <Editor
-//             blockStyleFn={getBlockStyle}
-//             editorState={editorState}
-//             handleKeyCommand={this.handleKeyCommand}
-//             keyBindingFn={this.mapKeyToEditorCommand}
-//             onChange={this.onChange}
-//             placeholder="Tell a story..."
-//             ref="editor"
-//             spellCheck={true}
-//           />
-//         </div>
-//       </div>
-//     );
-//   }
-// }
 
 
 function getBlockStyle(block) {
