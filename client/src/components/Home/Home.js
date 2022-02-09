@@ -6,7 +6,6 @@ import History from './History';
 function Home() {
 
   async function fetchHello() {
-    console.log('huh')
     const res = await fetch('http://localhost:4200/hello', {
       method: 'GET'
     }); 
@@ -14,15 +13,16 @@ function Home() {
     const data = await res.json()
     console.log('API Res: ', data);
   }
+  
   return (
-    <div className="App">      
+    <div className="Home">      
     
     {/* <div onClick={() => fetchHello()}>fetch</div> */}
 
       <Header />
-      <div className='App-body'>
-        <History className='App-body-child'/>
-        <Entry className='App-body-child' />
+      <div className="Home-body">
+        <History className="Home-body-child"/>
+        <Entry className="Home-body-child" />
       </div>
     </div>
   );

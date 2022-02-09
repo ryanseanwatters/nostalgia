@@ -10,6 +10,8 @@ function App(){
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/today" element={<Home />} />
+        {/* <Route path="/colors" element={<Home />} /> */}
+        {/* <Route path="/settings" element={<Home />} /> */}
       </Routes>
     </BrowserRouter>
   </div>

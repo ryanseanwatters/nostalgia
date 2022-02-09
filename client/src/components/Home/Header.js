@@ -1,11 +1,22 @@
 import React from 'react'; 
+import { NavLink } from 'react-router-dom';
+
 import './Header.css';
 
 export default function Header() {
   return (
     <div className='Header'>
-      <div className='Header-child' onClick={() => alert('colors clicked')}> colors </div>
-      <div className='Header-child' onClick={() => alert('sign out clicked')}> sign out </div>
+      <NavLink to="/colors" className="Header-child">
+        colors
+      </NavLink> 
+
+      <NavLink to="/settings" className="Header-child">
+        settings
+      </NavLink> 
+
+      <NavLink to="/login" className="Header-child">
+        sign out
+      </NavLink> 
     </div>
   )
 }

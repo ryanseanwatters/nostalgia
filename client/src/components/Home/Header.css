@@ -10,6 +10,8 @@
 
 .Header-child {
   margin: 1.2rem;
+  color: var(--secondary-color) !important;
+  text-decoration: none;
 }
 
 .Header-child:last-child {
