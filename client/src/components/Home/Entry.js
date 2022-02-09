@@ -4,7 +4,7 @@ import TextInput from './TextInput';
 
 import './Entry.css';
 
-export default function Entry() {
+function Entry() {
   return (
     <div className="Entry">
      
@@ -52,3 +52,5 @@ export default function Entry() {
     </div>
   )
 }
+
+export default Entry;
