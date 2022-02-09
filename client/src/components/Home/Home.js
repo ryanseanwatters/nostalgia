@@ -12,7 +12,6 @@ function Home(props) {
   // default userId to 1, update when impl sign in
   const { userId = 1 } = props;
 
-  const [isFetching, setIsFetching] = useState(false);
   const [entries, setEntries] = useState([]);
   const [dateToEntriesMap, setDateToEntriesMap] = useState({});
   const [viewEntry, setViewEntry] = useState(false);
@@ -20,17 +19,13 @@ function Home(props) {
 
   // update dateToEntriesMap each time entries is updated
   useEffect(() => {
+    const map = {}; 
 
-    if (!isFetching) {
-      const map = {}; 
-      
+    entries.forEach((e) => {
+      map[e.createdAt] = e;
+    });
 
-      entries.forEach((e) => {
-        map[e.createdAt] = e;
-      });
-
-      setDateToEntriesMap(map);
-    }
+    setDateToEntriesMap(map);
   }, [entries]);
 
   useEffect(() => {
@@ -38,14 +33,11 @@ function Home(props) {
   }, [userId]);
 
   const getEntries = async (userId) => {
-    setIsFetching(true);
-
     await fetch(`${API_URL}/entries/${userId}`, {
       method: 'GET'
     })
     .then(res => res.json())
     .then(data => setEntries(data.entries))
-    .then(setIsFetching(false));
   }
 
   const handleDateSelect = ((date) => {
@@ -77,7 +69,7 @@ function Home(props) {
         />
         
         { viewEntry ? 
-          <ViewEntry className="Home-body-child" entry={dateToEntriesMap[selectedDate]} fetchEntries={getEntries}/>
+          <ViewEntry className="Home-body-child" entryId={dateToEntriesMap[selectedDate].entryId} />
           : <NewEntry className="Home-body-child" />
         }
       </div>

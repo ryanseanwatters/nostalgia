@@ -21,10 +21,7 @@ class TextInput extends React.Component {
       qId,
       initialAnswerContentState,
       handleTextInputChanges,
-      readOnly,
     } = props; 
-
-    console.log(qId, initialAnswerContentState);
 
     this.state = {
       editorState: initialAnswerContentState ? EditorState.createWithContent(convertFromRaw(initialAnswerContentState)) : EditorState.createEmpty(),

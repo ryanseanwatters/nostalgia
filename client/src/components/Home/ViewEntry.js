@@ -9,30 +9,33 @@ const API_URL = 'http://localhost:4200';
 
 
 function ViewEntry(props) {
-  const { entry = {}, fetchEntries } = props;
+  const { entryId = '' } = props;
 
-  const { questions } = entry;
-
+  const [entry, setEntry] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [inEditingMode, setEditingMode] = useState(false);
-  const [qIdMap, setQIdMap] = useState({});
   const [unsavedChanges, setUnsavedChanges] = useState({});
 
-  useEffect(() => {
-    const m = {};
+  useEffect(() => { getEntry(); }, [entryId]);
 
-    questions.forEach((q) => {
-      m[q.qId] = q;
-    });
+  const getEntry = async () => {
+    console.log('in getEntry');
+    setIsLoading(true);
 
-    setQIdMap(m);
-  }, [questions]);
+    await fetch(`${API_URL}/user/1/entry/${entryId}`, {
+      method: 'GET',
+    })
+    .then(res => res.json())
+    .then(({ entry }) => setEntry(entry))
+    .then(() => setIsLoading(false));
+  };
 
   const handleTextInputChanges = ((qId, content) => {
     const newState = unsavedChanges;
     newState[qId] = content;
 
     setUnsavedChanges(newState);
-  })
+  });
 
   const handleSave = async () => {
     setEditingMode(false);
@@ -68,14 +71,14 @@ function ViewEntry(props) {
         }
       </div>
 
-      <div className="Entry-body">
+      {!isLoading ? <div className="Entry-body">
         <div className="Entry-body-child" id="Entry-date">
           { formatDate(new Date(entry.createdAt)) }
         </div>
 
         <div className="Entry-body-child Entry-questions-container">
           {
-            questions.map((question) => (
+            entry.questions.map((question) => (
               <div key={question.qId}>
                 
                 <div key={`${question.qId}_q`} className="Entry-question">
@@ -94,7 +97,7 @@ function ViewEntry(props) {
             ))
           }   
         </div>
-      </div>
+      </div> : null }
     </div>
   )
 }

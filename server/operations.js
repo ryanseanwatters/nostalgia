@@ -1,5 +1,14 @@
 const { getEntry, setEntry } = require('./cache');
 
+
+async function getEntryOp(req, res) {
+  const { userId, entryId } = req.params; 
+
+  const entry = await getEntry(userId, entryId);
+
+  res.json({ entry });
+}
+
 async function getEntries(req, res) {
   const { userId } = req.params; 
 
@@ -30,6 +39,7 @@ async function saveEntry(req, res) {
 
 
 module.exports = {
+  getEntryOp,
   getEntries,
   saveEntry,
 };

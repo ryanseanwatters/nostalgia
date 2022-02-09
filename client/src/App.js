@@ -10,16 +10,10 @@ function App(){
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/today" element={<Home />}>
-          {/* <Route index element={<NewEntry />} />
-          <Route path="view" element={<ViewEntry />} />
-          <Route path="new" element={<NewEntry />} /> */}
-        </Route>
-        {/* <Route path="/view/:date" element={<ViewEntry />} /> */}
-        {/* <Route path="/settings" element={<Home />} /> */}
+        <Route path="/today" element={<Home />} />
       </Routes>
     </BrowserRouter>
-  </div>
+  </div>;
 }
 
 export default App;
