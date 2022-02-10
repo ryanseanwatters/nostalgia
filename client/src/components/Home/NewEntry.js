@@ -5,7 +5,6 @@ import { formatDate } from '../utils';
 
 import './Entry.css';
 
-
 const newQuestions = [
   {
     qId: '20',
@@ -25,21 +24,9 @@ const newQuestions = [
 ];
 
 const initUnsavedChanges = {
-  '20': {
-    qId: '20',
-    q: 'what does your normal day look like?',
-    a: null,
-  },
-  '21': {
-    qId: '21',
-    q: 'what are you biggest goals right now?',
-    a: null,
-  },
-  '22': {
-    qId: '22',
-    q: 'what are you watching nowadays?',
-    a: null,
-  }
+  '20': null,
+  '21': null,
+  '22': null,
 }
 
 const API_URL = 'http://localhost:4200';
@@ -94,11 +81,3 @@ function NewEntry(props) {
 }
 
 export default NewEntry;
-
-// const { useState, useEffect } = require( 'react'); 
-// const React = require( 'react'); 
-// const { FaCheckCircle, FaPen, FaTrash } = require( "react-icons/fa");
-// const TextInput = require( './TextInput');
-// const { formatDate } = require( '../utils');
-
-// require('./Entry.css');

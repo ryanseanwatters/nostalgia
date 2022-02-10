@@ -47,6 +47,9 @@ function ViewEntry(props) {
     });
   }
 
+  console.log('entryId', entryId);
+  console.log('entry', entry)
+
   return (
     <div className="Entry">
       <div className="Entry-buttons">   

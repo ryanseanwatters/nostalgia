@@ -18,15 +18,41 @@ async function getEntries(req, res) {
   res.json({ entries });
 }
 
+
+const newQuestions = {
+  '20': {
+    qId: '20',
+    q: 'what does your normal day look like?',
+    a: null,
+  },
+ '21': {
+    qId: '21',
+    q: 'what are you biggest goals right now?',
+    a: null,
+  },
+  '22': {
+    qId: '22',
+    q: 'what are you watching nowadays?',
+    a: null,
+  }
+}
+
 async function createNewEntry(req, res) {
   const { userId } = req.params; 
-  const { questions } = req.body;
+  const { answers } = req.body;
+
+  const entryQs = [];
+
+  Object.keys(newQuestions).forEach((qId) => {
+    const newQ = answers[qId] ? { ...newQuestions[qId], a: answers[qId] } : newQuestions[qId];
+    entryQs.push(newQ);
+  })
 
   const entry = {
     userId,
     entryId: uuidv4(),
-    createdAt: (new Date()).getUTCMilliseconds(),
-    questions
+    createdAt: (new Date().getTime()),
+    questions: entryQs,
   }
   
   await setEntry(entry);

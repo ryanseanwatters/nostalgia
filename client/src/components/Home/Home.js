@@ -40,16 +40,16 @@ function Home(props) {
     .then(data => setEntries(data.entries))
   }
 
-  const createNewEntry = async (questions) => {
+  const createNewEntry = async (answers) => {
     await fetch(`${API_URL}/user/1/entry`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ questions }),
+      body: JSON.stringify({ answers }),
     })
     .then(res => res.json())
-    .then(({ entry }) => entries.concat([entry]))
+    .then(({ entry }) => ([entry]).concat(entries))
     .then(data => setEntries(data));
   }
 
