@@ -1,5 +1,6 @@
 const { getEntry, setEntry } = require('./cache');
-
+const { v4: uuidv4 } = require('uuid');
+const { default: NewEntry } = require('../client/src/components/Home/NewEntry');
 
 async function getEntryOp(req, res) {
   const { userId, entryId } = req.params; 
@@ -16,6 +17,24 @@ async function getEntries(req, res) {
   const entries = await Promise.all([getEntry(userId, '1'), getEntry(userId, '2')]);
 
   res.json({ entries });
+}
+
+async function createNewEntry(req, res) {
+  const { userId } = req.params; 
+  const { questions } = req.body;
+
+  const entry = {
+    userId,
+    entryId: uuidv4(),
+    createdAt: (new Date()).getUTCMilliseconds(),
+    questions
+  }
+
+  console.log('new entry!', entry);
+  
+  await setEntry(entry);
+
+  res.json({ entry });
 }
 
 async function saveEntry(req, res) {
@@ -42,4 +61,5 @@ module.exports = {
   getEntryOp,
   getEntries,
   saveEntry,
+  createNewEntry,
 };

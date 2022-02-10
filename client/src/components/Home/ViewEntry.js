@@ -7,7 +7,6 @@ import './Entry.css';
 
 const API_URL = 'http://localhost:4200';
 
-
 function ViewEntry(props) {
   const { entryId = '' } = props;
 
@@ -19,7 +18,6 @@ function ViewEntry(props) {
   useEffect(() => { getEntry(); }, [entryId]);
 
   const getEntry = async () => {
-    console.log('in getEntry');
     setIsLoading(true);
 
     await fetch(`${API_URL}/user/1/entry/${entryId}`, {

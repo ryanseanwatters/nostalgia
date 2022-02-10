@@ -11,17 +11,17 @@ const entry1 = {
   questions: [
     {
       qId: '20',
-      q: 'What is Lorem Ipsum?',
+      q: 'what does your normal day look like?',
       a: null,
     },
     {
       qId: '21',
-      q: '',
+      q: 'what are you biggest goals right now?',
       a: null,
     },
     {
       qId: '22',
-      q: '',
+      q: 'what are you watching nowadays?',
       a: null,
     }
   ]
@@ -34,24 +34,21 @@ const entry2 =  {
   questions: [
     {
       qId: '30',
-      q: 'What is Lorem Ipsum?',
+      q: 'what does your normal day look like?',
       a: null,
     },
     {
       qId: '31',
-      q: '',
+      q: 'what are you biggest goals right now?',
       a: null,
     },
     {
       qId: '32',
-      q: '',
+      q: 'what are you watching nowadays?',
       a: null,
     }
   ]
 }
-
-// keyed by userId_entryId
-// initializing the cache
 
 async function initializeCache() {
   await entriesCache.set('1_1', JSON.stringify(entry1));
@@ -67,12 +64,10 @@ async function getEntry(userId, entryId) {
   }
 
   const key = getKey(userId, entryId);
-
   const entry = await entriesCache.get(key); 
 
   return JSON.parse(entry);
 }
-
 
 async function setEntry(entry) {
   if (!isInitialized) {
