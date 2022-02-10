@@ -5,6 +5,7 @@ import { formatDate } from '../utils';
 
 import './Entry.css';
 
+
 const newQuestions = [
   {
     qId: '20',
@@ -44,6 +45,8 @@ const initUnsavedChanges = {
 const API_URL = 'http://localhost:4200';
 
 function NewEntry(props) {
+  const { createNewEntry } = props;
+
   const [unsavedChanges, setUnsavedChanges] = useState(initUnsavedChanges);
 
   const handleTextInputChanges = ((qId, content) => {
@@ -53,20 +56,9 @@ function NewEntry(props) {
     setUnsavedChanges(newState);
   });
 
-  const handleSave = async () => {
-    await fetch(`${API_URL}/user/1/entry`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ questions: unsavedChanges }),
-    }).then(() => window.location.reload())
-  }
-
-  return (
-    <div className="Entry">
+  return ( <div className="Entry">
       <div className="Entry-buttons">   
-          <div className="Entry-buttons-child" onClick={handleSave}>
+          <div className="Entry-buttons-child" onClick={() => createNewEntry(unsavedChanges)}>
             <FaCheckCircle className="Entry-buttons-child-icon" />
           </div>
       </div>

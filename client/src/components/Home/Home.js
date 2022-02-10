@@ -40,6 +40,19 @@ function Home(props) {
     .then(data => setEntries(data.entries))
   }
 
+  const createNewEntry = async (questions) => {
+    await fetch(`${API_URL}/user/1/entry`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ questions }),
+    })
+    .then(res => res.json())
+    .then(({ entry }) => entries.concat([entry]))
+    .then(data => setEntries(data));
+  }
+
   const handleDateSelect = ((date) => {
     setViewEntry(true);
     setSelectedDate(date);
@@ -50,8 +63,8 @@ function Home(props) {
     setSelectedDate(null);
   }
 
-  // console.log('before return entries', entries)
-  // console.log('before return dateToEntriesMap', dateToEntriesMap)
+  console.log('before return entries', entries)
+  console.log('before return dateToEntriesMap', dateToEntriesMap)
   // console.log('before return viewEntry', viewEntry)
   // console.log('before return selectedDate', selectedDate)
 
@@ -70,7 +83,7 @@ function Home(props) {
         
         { viewEntry ? 
           <ViewEntry className="Home-body-child" entryId={dateToEntriesMap[selectedDate].entryId} />
-          : <NewEntry className="Home-body-child" />
+          : <NewEntry className="Home-body-child" createNewEntry={createNewEntry} />
         }
       </div>
     
